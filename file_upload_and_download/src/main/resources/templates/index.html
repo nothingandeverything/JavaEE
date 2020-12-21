@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="cn_ZH">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登陆界面</title>
+    <style>
+        body {
+            background-image: url("/images/image1.jpg");
+            background-repeat: no-repeat;
+            background-position: center 0px;
+            margin: 0;
+            padding: 0;
+            color: aliceblue;
+        }
+        
+        .box {
+            border-radius: 50px;
+            width: 600px;
+            height: 420px;
+            background: rgba(0, 0, 0, 0.7);
+            margin: 120px auto;
+            text-align: center;
+        }
+        
+        .login {
+            padding-top: 70px;
+            color: black;
+            font-size: 50px;
+            font-weight: 900;
+            text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+        }
+        
+        .ltext {
+            width: 200px;
+            height: 30px;
+            background-color: transparent;
+            /* border-bottom-width: 2px;
+            border-bottom-style: solid; */
+            margin: 10px;
+            border: none;
+            font-size: 20px;
+            border-radius: 0;
+            border-bottom: #8D8D8D 1px solid;
+            /* border-bottom-color: aliceblue; */
+        }
+        
+        #dl {
+            width: 180px;
+            height: 50px;
+            border-radius: 15px;
+            margin-top: 25px;
+            background-color: white;
+            border: none;
+            color: black;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        #dl:hover {
+            box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        input {
+            outline: none;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h3 class="login">文件上传登录界面</h3>
+        <form action="/user/login" method="post">
+            <div>
+                账号<input class="ltext" type="text" name="username" required="required" autocomplete="off" placeholder="Username">
+            </div>
+            <div>
+                密码<input class="ltext" type="text" name="password" required="required" autocomplete="off" placeholder="PassWord">
+            </div>
+
+            <input id="dl" type="submit" value="login">
+        </form>
+
+    </div>
+
+
+</body>
+
+</html>

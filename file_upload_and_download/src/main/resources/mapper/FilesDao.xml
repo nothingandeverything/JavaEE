@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hxh.files.mapper.FilesDao">
+
+    <resultMap type="cn.hxh.files.pojo.Files" id="FilesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="oldfilename" column="oldFileName" jdbcType="VARCHAR"/>
+        <result property="newfilename" column="newFileName" jdbcType="VARCHAR"/>
+        <result property="ext" column="ext" jdbcType="VARCHAR"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="size" column="size" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="isimg" column="isImg" jdbcType="VARCHAR"/>
+        <result property="downcounts" column="downcounts" jdbcType="INTEGER"/>
+        <result property="uploadTime" column="upload_time" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="FilesMap">
+        select
+          id, oldFileName, newFileName, ext, path, size, type, isImg, downcounts, upload_time, user_id
+        from userfiles.files
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="FilesMap">
+        select
+          id, oldFileName, newFileName, ext, path, size, type, isImg, downcounts, upload_time, user_id
+        from userfiles.files where user_id = #{id}
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="FilesMap">
+        select
+          id, oldFileName, newFileName, ext, path, size, type, isImg, downcounts, upload_time, user_id
+        from userfiles.files
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="oldfilename != null and oldfilename != ''">
+                and oldFileName = #{oldfilename}
+            </if>
+            <if test="newfilename != null and newfilename != ''">
+                and newFileName = #{newfilename}
+            </if>
+            <if test="ext != null and ext != ''">
+                and ext = #{ext}
+            </if>
+            <if test="path != null and path != ''">
+                and path = #{path}
+            </if>
+            <if test="size != null">
+                and size = #{size}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="isimg != null and isimg != ''">
+                and isImg = #{isimg}
+            </if>
+            <if test="downcounts != null">
+                and downcounts = #{downcounts}
+            </if>
+            <if test="uploadTime != null">
+                and upload_time = #{uploadTime}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into userfiles.files(oldFileName, newFileName, ext, path, size, type, isImg, downcounts, upload_time, user_id)
+        values (#{oldfilename}, #{newfilename}, #{ext}, #{path}, #{size}, #{type}, #{isimg}, #{downcounts}, #{uploadTime}, #{userId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update userfiles.files
+        <set>
+            <if test="oldfilename != null and oldfilename != ''">
+                oldFileName = #{oldfilename},
+            </if>
+            <if test="newfilename != null and newfilename != ''">
+                newFileName = #{newfilename},
+            </if>
+            <if test="ext != null and ext != ''">
+                ext = #{ext},
+            </if>
+            <if test="path != null and path != ''">
+                path = #{path},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="isimg != null and isimg != ''">
+                isImg = #{isimg},
+            </if>
+            <if test="downcounts != null">
+                downcounts = #{downcounts},
+            </if>
+            <if test="uploadTime != null">
+                upload_time = #{uploadTime},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from userfiles.files where id = #{id}
+    </delete>
+
+</mapper>

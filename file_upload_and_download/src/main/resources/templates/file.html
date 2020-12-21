@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="cn-ZH" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>上传下载界面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .header {
+            margin: 0 auto;
+            background-image: url("/images/image1.jpg");
+            height: 100px;
+        }
+
+        .user {
+            text-align: center;
+            height: 100px;
+            line-height: 100px;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        .table1 {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        table {
+            margin: 10px auto;
+            border-collapse: collapse;
+
+        }
+
+        table tr th, table tr td {
+            padding: 0px 12px;
+            font-size: 11px;
+
+        }
+
+        .upload {
+            margin-top: 100px;
+        }
+
+        table tr td a {
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+
+        .a {
+            width: 250px;
+
+        }
+
+        .a a {
+            display: inline-block;
+            height: 50px;
+            line-height: 50px;
+            width: 65px;
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+            text-decoration: none;
+            background-color: #8D8D8D;
+            background-position: center;
+        }
+
+        a:hover {
+            box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        table tbody tr:nth-child(odd){
+            background-color: beige;
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="header">
+    <div class="user">
+        <img style="width: 50px;height: 50px;border-radius: 255px" src="/images/avatar.jpg">用户名:
+        <span th:text="${session.USER_INFO.username}"></span>
+        <a href="/user/logout" style="height: 50px;line-height: 50px;width: 100px;margin-left: 40px;color: white;border-radius: 30px;box-shadow: 0 0 15px 5px
+            rgba(0 ,0 ,0 ,0.3);text-decoration: none;background-color: #8D8D8D;display: inline-block;background-position: center">注销</a>
+    </div>
+</div>
+
+<div class="table1">
+    <!--表格-->
+    <table border="1px">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>老文件名字</th>
+            <th>新文件名字</th>
+            <th>文件后缀名</th>
+            <th>存储路径</th>
+            <th>文件大小</th>
+            <th>类型</th>
+            <th>是否图片</th>
+            <th>下载次数</th>
+            <th>上传时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="file,index:${fileList}">
+            <td th:text="${(index.index)+1}"></td>
+            <td th:text="${file.getOldfilename()}"></td>
+            <td th:text="${file.getNewfilename()}"></td>
+            <td th:text="${file.getExt()}"></td>
+            <td th:text="${file.getPath()}"></td>
+            <td th:text="${file.getSize()}"></td>
+            <td th:text="${file.getType()}"></td>
+            <td>
+                <img style="width: 100px;height: 100px;" th:if="${file.isimg=='是'}"
+                     th:src="${file.getPath()}+'/'+${file.getNewfilename()}">
+                <span th:if="${file.isimg!='是'}" th:text="${file.getIsimg()}"></span>
+            </td>
+            <td th:text="${file.getDowncounts()}"></td>
+            <td th:text="${#calendars.format(file.getUploadTime(),'yyyy年MM月dd号 HH时mm分')}"></td>
+            <td class="a">
+                <a th:href="@{'/file/dowload/'(id=${file.getId()})}">下载</a>
+                <a th:href="${file.getPath()}+'/'+${file.getNewfilename()}">在线观看</a>
+                <a th:href="@{'/file/delete/'(id=${file.getId()})}">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="upload">
+    <form style="text-align: center" action="/file/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" multiple="multiple">
+        <input type="submit" value="提交">
+    </form>
+</div>
+<script th:inline="javascript">
+    var msg = [[${msg}]];
+    if (msg != null && msg.length > 0) {
+        alert(msg);
+    }
+</script>
+</body>
+</html>
